@@ -6,13 +6,12 @@ class SendSms{
     private $from='+985000291950';
     private $uname='amlakmarkazi';
     private $pass='hamid@13579';
-    public function __construct(){
-
+    public function __construct($msg, $recipient){
+        $this->msg=$msg;
+        $this->recipient=$recipient;
     }
     public function send(){
 
-
-        $rcpt_nm = array('9121111111','9122222222');
         $param = array
         (
             'uname'=>$this->uname,
@@ -30,10 +29,7 @@ class SendSms{
         $response2 = curl_exec($handler);
 
         $response2 = json_decode($response2);
-        $res_code = $response2[0];
-        $res_data = $response2[1];
+        return $response2[1];
 
-
-        echo $res_data;
     }
 }

@@ -43,9 +43,9 @@ class User{
     }
     public function getUser(){
         $query='SELECT * FROM '.$this->table.
-            ' WHERE id =? LIMIT 0,1';
+            ' WHERE id =:id';
         $stmt=$this->conn->prepare($query);
-        $stmt->bindParam(1,$this->id);
+        $stmt->bindParam(':id',$this->id);
 
         $stmt->execute();
         $row=$stmt->fetch(PDO::FETCH_ASSOC);
@@ -60,6 +60,7 @@ class User{
         $this->address=$row['address'];
         $this->verified=$row['verified'];
         $this->enabled=$row['enabled'];
+        $this->roleId=$row['roleId'];
     }
     public function insertUser(){
         $query="INSERT INTO ".$this->table.
@@ -94,7 +95,21 @@ class User{
         else{
             return false;
         }
+    }
+    public function getUserId(){
+        $query='SELECT * FROM '.$this->table.
+            ' WHERE phoneNumber =:phoneNumber';
+        $stmt=$this->conn->prepare($query);
+        $stmt->bindParam(':phoneNumber',$this->phoneNumber);
 
+        $stmt->execute();
+        $row=$stmt->fetch(PDO::FETCH_ASSOC);
+        if($row){
+            return $row['id'];
+        }
+        else{
+            return 0;
+        }
     }
     public function userIdExists(){
         $query="SELECT * FROM ".$this->table.' WHERE id=:id';

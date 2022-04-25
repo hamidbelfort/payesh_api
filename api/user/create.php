@@ -21,17 +21,20 @@ if(isset($_POST['phoneNumber'])){
 
         if($user->insertUser()){
             echo json_encode(array(
+                'code'=>200,
                 'message'=>'کاربر با موفقیت ثبت شد'
             ));
         }
         else{
             echo json_encode(array(
+                'code'=>500,
                 'message'=>'عملیات به دلیل خطا متوقف شد'
             ));
         }
     }
     else{
         echo json_encode(array(
+            'code'=>400,
             'message'=>"شماره موبایل تکراری میباشد"
         ));
     }

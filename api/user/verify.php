@@ -17,11 +17,13 @@ if(isset($_POST['id'])){
         $user->enabled=1;
         if($user->verifyUser()){
             echo json_encode(array([
+                'code'=>200,
                 'message'=>'عملیات با موفقیت انجام شد'
             ]));
         }
         else{
             echo json_encode(array([
+                'code'=>500,
                 'message'=>'عملیات به دلیل خطا متوقف شد'
             ]));
         }

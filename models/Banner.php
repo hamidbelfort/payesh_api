@@ -5,10 +5,10 @@ class Banner
     private $conn;
     private $table='tbl_banners';
 
-    private $id;
-    private $image;
-    private $link;
-    private $enabled;
+    public $id;
+    public $image;
+    public $link;
+    public $enabled;
     public function __construct($db)
     {
         $this->conn=$db;
@@ -20,5 +20,21 @@ class Banner
 
         $stmt->execute();
         return $stmt;
+    }
+    public function insertBanner(){
+        $query="INSERT INTO ".$this->table.
+            "(image,link,enabled) VALUES (:image,:link,:enabled)";
+        $stmt=$this->conn->prepare($query);
+
+        $stmt->bindParam(":image",$this->image);
+        $stmt->bindParam(":link",$this->link);
+        $stmt->bindParam(":enabled",$this->enabled);
+
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
