@@ -53,6 +53,16 @@ class Users
         }
         return false;
     }
+    public function isUserVerified($uid){
+        $query="SELECT * FROM tbl_users WHERE id=$uid AND verified=1";
+        $stmt=$this->conn->prepare($query);
+        $stmt->execute();
+        $row=$stmt->fetch(PDO::FETCH_ASSOC);
+        if($stmt->rowCount()>0){
+            return true;
+        }
+        return false;
+    }
     public function getUserIdByPhone($phone){
         $query="SELECT id FROM tbl_users WHERE phoneNumber='$phone'";
         $stmt=$this->conn->prepare($query);

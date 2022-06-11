@@ -28,19 +28,31 @@ if(isset($_GET['cmd'])){
         if(isset($_POST['phone']) && isset($_POST['code'])){
             $phone=$_POST['phone'];
             $code=$_POST['code'];
-            $users->confirmCode($phone,$code);
+            $result=$users->confirmCode($phone,$code);
+            $loggedUser=$users->getUserByPhone($phone);
+            echo json_encode($loggedUser);
         }
     }//endregion
     //region login and send activation code
     else if($cmd=='login'){
         if(isset($_POST['phone'])){
             $phone=$_POST['phone'];
-            $result=$users->sendCode($phone);
-            if($result>0){
-                echo json_encode(array("success"=>true,"message"=>"کد تاییدیه با موفقیت ارسال شد"));
+
+            $uid=$users->getUserByPhone($phone);
+            $isVerify=$users->isUserVerified($uid);
+
+            if($isVerify){
+                $result=$users->sendCode($phone);
+                if($result>0){
+
+                    echo json_encode(array("success"=>true,"message"=>"کد تاییدیه با موفقیت ارسال شد"));
+                }
+                else{
+                    echo json_encode(array("success"=>false,"message"=>"کد تاییدیه ارسال نشد"));
+                }
             }
             else{
-                echo json_encode(array("success"=>false,"message"=>"کد تاییدیه ارسال نشد"));
+                echo json_encode(array("success"=>false,"message"=>"حساب کاربری شما هنوز تایید نشده است"));
             }
         }
     }//endregion
