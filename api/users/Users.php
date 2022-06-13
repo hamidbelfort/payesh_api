@@ -131,4 +131,33 @@ class Users
         }
     }
 
+    public function addUserContact($uid,$phone,$address){
+        $query="INSERT INTO tbl_contact (userId, phone, address) VALUES ($uid,'$phone','$address')";
+        $stmt=$this->conn->prepare($query);
+        $stmt->execute();
+        return $this->conn->lastInsertId();
+    }
+    public function deleteUserContact($contactId){
+        $query="DELETE FROM tbl_contact WHERE id=$contactId";
+        $stmt=$this->conn->prepare($query);
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
+    public function updateUserContact($contactId,$phone,$address){
+        $query="UPDATE tbl_contact SET phone='$phone', address='$address' WHERE id=$contactId";
+        $stmt=$this->conn->prepare($query);
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
+    public function getUserContacts($uid){
+        $query="SELECT * FROM tbl_contact WHERE userId=$uid";
+        $stmt=$this->conn->prepare($query);
+        $stmt->execute();
+        $row=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($row);
+    }
 }
