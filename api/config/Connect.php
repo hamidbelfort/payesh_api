@@ -18,4 +18,13 @@ class Connect
             echo 'Connection Error:' . $e->getMessage();
         }
     }
+    public function getAppPath($mode){
+        if($mode=="dev"){
+            return "http://".gethostbyname(gethostname())."/payesh/api/";
+        }
+        else if($mode=="production"){
+            return "https://".gethostbyname(gethostname())."/payesh/api/";
+        }
+
+    }
 }

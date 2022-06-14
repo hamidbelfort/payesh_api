@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2022 at 07:44 PM
+-- Generation Time: Jun 13, 2022 at 05:28 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -110,6 +110,18 @@ CREATE TABLE `tbl_dealtype` (
   `dealType` text COLLATE utf8_persian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_persian_ci;
 
+--
+-- Dumping data for table `tbl_dealtype`
+--
+
+INSERT INTO `tbl_dealtype` (`id`, `dealType`) VALUES
+(1, 'فروش'),
+(2, 'خرید'),
+(3, 'رهن'),
+(4, 'اجاره'),
+(5, 'رهن و اجاره'),
+(6, 'کرایه');
+
 -- --------------------------------------------------------
 
 --
@@ -122,6 +134,16 @@ CREATE TABLE `tbl_images` (
   `img` text COLLATE utf8_persian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_persian_ci;
 
+--
+-- Dumping data for table `tbl_images`
+--
+
+INSERT INTO `tbl_images` (`id`, `propertyId`, `img`) VALUES
+(1, 1, 'https://s101.divarcdn.com/static/pictures/1655131309/QYb7QO3N.4.jpg'),
+(2, 1, 'https://s101.divarcdn.com/static/pictures/1655131309/QYb7QO3N.2.jpg'),
+(3, 2, 'https://s101.divarcdn.com/static/pictures/1655131284/gYnukXwv.1.jpg'),
+(4, 2, 'https://s101.divarcdn.com/static/pictures/1655131284/gYnukXwv.3.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -130,26 +152,36 @@ CREATE TABLE `tbl_images` (
 
 CREATE TABLE `tbl_property` (
   `id` int(11) NOT NULL,
+  `image` text COLLATE utf8_persian_ci NOT NULL,
   `title` text COLLATE utf8_persian_ci NOT NULL,
   `description` text COLLATE utf8_persian_ci NOT NULL,
   `price` int(11) NOT NULL,
   `minPrice` int(11) NOT NULL,
   `maxPrice` int(11) NOT NULL,
   `propertyTypeId` int(11) NOT NULL,
+  `dealTypeId` int(11) NOT NULL,
   `hasElevator` int(11) NOT NULL,
   `hasParking` int(11) NOT NULL,
   `hasWarehouse` int(11) NOT NULL,
   `hasBalcony` int(11) NOT NULL,
-  `bedsNo` float NOT NULL,
+  `bedsNo` int(11) NOT NULL,
   `toiletsNo` int(11) NOT NULL,
   `cityId` int(11) NOT NULL,
-  `regionId` text COLLATE utf8_persian_ci NOT NULL,
-  `address` int(11) NOT NULL,
+  `regionId` int(11) NOT NULL,
+  `address` text COLLATE utf8_persian_ci NOT NULL,
   `userId` int(11) NOT NULL,
-  `views` int(11) NOT NULL,
-  `isConfirmed` int(11) NOT NULL,
-  `dealTypeId` int(11) NOT NULL
+  `views` int(11) NOT NULL DEFAULT 0,
+  `isConfirmed` int(11) NOT NULL DEFAULT 0,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_persian_ci;
+
+--
+-- Dumping data for table `tbl_property`
+--
+
+INSERT INTO `tbl_property` (`id`, `image`, `title`, `description`, `price`, `minPrice`, `maxPrice`, `propertyTypeId`, `dealTypeId`, `hasElevator`, `hasParking`, `hasWarehouse`, `hasBalcony`, `bedsNo`, `toiletsNo`, `cityId`, `regionId`, `address`, `userId`, `views`, `isConfirmed`, `createdAt`) VALUES
+(1, 'https://s101.divarcdn.com/static/pictures/1655131284/gYnukXwv.jpg', 'منزل مبله', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 300000, 0, 0, 5, 0, 0, 1, 0, 0, 2, 1, 1, 1, '0', 1000, 0, 1, '2022-06-13 19:21:24'),
+(2, 'https://s101.divarcdn.com/static/pictures/1655131309/QYb7QO3N.jpg', 'منزل مبله ویلایی', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 300000, 0, 0, 5, 6, 0, 1, 1, 0, 2, 1, 1, 1, 'شیراز ', 1000, 5, 1, '2022-06-13 19:25:55');
 
 -- --------------------------------------------------------
 
@@ -158,19 +190,20 @@ CREATE TABLE `tbl_property` (
 --
 
 CREATE TABLE `tbl_propertytype` (
-  `Id` int(11) NOT NULL,
-  `PropertyType` text COLLATE utf8_persian_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `propertyType` text COLLATE utf8_persian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_persian_ci;
 
 --
 -- Dumping data for table `tbl_propertytype`
 --
 
-INSERT INTO `tbl_propertytype` (`Id`, `PropertyType`) VALUES
+INSERT INTO `tbl_propertytype` (`id`, `propertyType`) VALUES
 (1, 'آپارتمان'),
 (2, 'ویلا'),
 (3, 'واحد مسکونی'),
-(4, 'سوییت');
+(4, 'سوییت'),
+(5, 'منزل مبله');
 
 -- --------------------------------------------------------
 
@@ -311,7 +344,7 @@ ALTER TABLE `tbl_property`
 -- Indexes for table `tbl_propertytype`
 --
 ALTER TABLE `tbl_propertytype`
-  ADD PRIMARY KEY (`Id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tbl_region`
@@ -376,25 +409,25 @@ ALTER TABLE `tbl_contact`
 -- AUTO_INCREMENT for table `tbl_dealtype`
 --
 ALTER TABLE `tbl_dealtype`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_images`
 --
 ALTER TABLE `tbl_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_property`
 --
 ALTER TABLE `tbl_property`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_propertytype`
 --
 ALTER TABLE `tbl_propertytype`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_region`
