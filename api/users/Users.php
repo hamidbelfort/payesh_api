@@ -36,6 +36,13 @@ class Users
         $row=$stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($row);
     }
+    public function searchUserByName($name){
+        $query="SELECT * FROM tbl_users WHERE verified=0 AND (firstName LIKE '%$name%' || lastName LIKE '%$name%') ORDER BY firstName,lastName";
+        $stmt=$this->conn->prepare($query);
+        $stmt->execute();
+        $row=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($row);
+    }
     public function verifyUser($uid){
         $query="UPDATE tbl_users SET verified=1, enabled=1 WHERE id=$uid";
         $stmt=$this->conn->prepare($query);

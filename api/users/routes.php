@@ -92,4 +92,13 @@ if(isset($_GET['cmd'])){
         $users->getNewUsers();
     }
     //endregion
+    //region searchByName
+    else if($cmd=='searchByName'){
+        if(isset($_POST['name'])){
+            $criteria=$_POST['name'];
+            $users->searchUserByName($criteria);
+        }
+    }
+    //endregion
+
 }

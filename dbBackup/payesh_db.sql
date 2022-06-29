@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2022 at 05:28 PM
+-- Generation Time: Jun 28, 2022 at 01:57 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -155,6 +155,8 @@ CREATE TABLE `tbl_property` (
   `image` text COLLATE utf8_persian_ci NOT NULL,
   `title` text COLLATE utf8_persian_ci NOT NULL,
   `description` text COLLATE utf8_persian_ci NOT NULL,
+  `year` int(11) NOT NULL,
+  `area` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `minPrice` int(11) NOT NULL,
   `maxPrice` int(11) NOT NULL,
@@ -179,9 +181,9 @@ CREATE TABLE `tbl_property` (
 -- Dumping data for table `tbl_property`
 --
 
-INSERT INTO `tbl_property` (`id`, `image`, `title`, `description`, `price`, `minPrice`, `maxPrice`, `propertyTypeId`, `dealTypeId`, `hasElevator`, `hasParking`, `hasWarehouse`, `hasBalcony`, `bedsNo`, `toiletsNo`, `cityId`, `regionId`, `address`, `userId`, `views`, `isConfirmed`, `createdAt`) VALUES
-(1, 'https://s101.divarcdn.com/static/pictures/1655131284/gYnukXwv.jpg', 'منزل مبله', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 300000, 0, 0, 5, 0, 0, 1, 0, 0, 2, 1, 1, 1, '0', 1000, 0, 1, '2022-06-13 19:21:24'),
-(2, 'https://s101.divarcdn.com/static/pictures/1655131309/QYb7QO3N.jpg', 'منزل مبله ویلایی', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 300000, 0, 0, 5, 6, 0, 1, 1, 0, 2, 1, 1, 1, 'شیراز ', 1000, 5, 1, '2022-06-13 19:25:55');
+INSERT INTO `tbl_property` (`id`, `image`, `title`, `description`, `year`, `area`, `price`, `minPrice`, `maxPrice`, `propertyTypeId`, `dealTypeId`, `hasElevator`, `hasParking`, `hasWarehouse`, `hasBalcony`, `bedsNo`, `toiletsNo`, `cityId`, `regionId`, `address`, `userId`, `views`, `isConfirmed`, `createdAt`) VALUES
+(1, 'https://s101.divarcdn.com/static/pictures/1655131284/gYnukXwv.jpg', 'منزل مبله', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 1400, 0, 300000, 0, 0, 5, 0, 0, 1, 0, 0, 2, 1, 1, 1, '0', 1000, 0, 1, '2022-06-13 19:21:24'),
+(2, 'https://s101.divarcdn.com/static/pictures/1655131309/QYb7QO3N.jpg', 'منزل مبله ویلایی', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 1395, 0, 300000, 0, 0, 5, 6, 0, 1, 1, 0, 2, 1, 1, 1, 'شیراز ', 1000, 12, 1, '2022-06-13 19:25:55');
 
 -- --------------------------------------------------------
 
