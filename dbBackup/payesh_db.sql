@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 28, 2022 at 01:57 PM
+-- Generation Time: Jul 01, 2022 at 06:56 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -99,6 +99,14 @@ CREATE TABLE `tbl_contact` (
   `address` text COLLATE utf8_persian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_persian_ci;
 
+--
+-- Dumping data for table `tbl_contact`
+--
+
+INSERT INTO `tbl_contact` (`id`, `userId`, `phone`, `address`) VALUES
+(1, 1000, '09366110309', 'استان فارس شهرسنان صفاشهر'),
+(2, 1000, '09030747677', '');
+
 -- --------------------------------------------------------
 
 --
@@ -171,6 +179,7 @@ CREATE TABLE `tbl_property` (
   `cityId` int(11) NOT NULL,
   `regionId` int(11) NOT NULL,
   `address` text COLLATE utf8_persian_ci NOT NULL,
+  `contactId` int(11) NOT NULL DEFAULT 0,
   `userId` int(11) NOT NULL,
   `views` int(11) NOT NULL DEFAULT 0,
   `isConfirmed` int(11) NOT NULL DEFAULT 0,
@@ -181,9 +190,9 @@ CREATE TABLE `tbl_property` (
 -- Dumping data for table `tbl_property`
 --
 
-INSERT INTO `tbl_property` (`id`, `image`, `title`, `description`, `year`, `area`, `price`, `minPrice`, `maxPrice`, `propertyTypeId`, `dealTypeId`, `hasElevator`, `hasParking`, `hasWarehouse`, `hasBalcony`, `bedsNo`, `toiletsNo`, `cityId`, `regionId`, `address`, `userId`, `views`, `isConfirmed`, `createdAt`) VALUES
-(1, 'https://s101.divarcdn.com/static/pictures/1655131284/gYnukXwv.jpg', 'منزل مبله', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 1400, 0, 300000, 0, 0, 5, 0, 0, 1, 0, 0, 2, 1, 1, 1, '0', 1000, 0, 1, '2022-06-13 19:21:24'),
-(2, 'https://s101.divarcdn.com/static/pictures/1655131309/QYb7QO3N.jpg', 'منزل مبله ویلایی', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 1395, 0, 300000, 0, 0, 5, 6, 0, 1, 1, 0, 2, 1, 1, 1, 'شیراز ', 1000, 12, 1, '2022-06-13 19:25:55');
+INSERT INTO `tbl_property` (`id`, `image`, `title`, `description`, `year`, `area`, `price`, `minPrice`, `maxPrice`, `propertyTypeId`, `dealTypeId`, `hasElevator`, `hasParking`, `hasWarehouse`, `hasBalcony`, `bedsNo`, `toiletsNo`, `cityId`, `regionId`, `address`, `contactId`, `userId`, `views`, `isConfirmed`, `createdAt`) VALUES
+(1, 'https://s101.divarcdn.com/static/pictures/1655131284/gYnukXwv.jpg', 'منزل مبله', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 1400, 0, 300000, 0, 0, 5, 0, 0, 1, 0, 0, 2, 1, 1, 1, '0', 1, 1000, 4, 1, '2022-06-13 19:21:24'),
+(2, 'https://s101.divarcdn.com/static/pictures/1655131309/QYb7QO3N.jpg', 'منزل مبله ویلایی', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 1395, 0, 300000, 0, 0, 5, 6, 0, 1, 1, 0, 2, 1, 1, 1, 'شیراز ', 1, 1000, 13, 1, '2022-06-13 19:25:55');
 
 -- --------------------------------------------------------
 
@@ -405,7 +414,7 @@ ALTER TABLE `tbl_city`
 -- AUTO_INCREMENT for table `tbl_contact`
 --
 ALTER TABLE `tbl_contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_dealtype`
