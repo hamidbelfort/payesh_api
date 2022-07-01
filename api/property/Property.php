@@ -130,6 +130,7 @@ class Property
         $dealType = array_column($row, "dealTypeId");
         $cityId = array_column($row, "cityId");
         $regionId = array_column($row, "regionId");
+        $contactId = array_column($row, "contactId");
         $view = array_column($row, "views");
 
         //update view
@@ -157,6 +158,13 @@ class Property
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $row['dealType'] = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        //contact
+
+        $query = "SELECT * FROM tbl_contact WHERE id=$contactId[0]";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row['contact'] = $stmt->fetch(PDO::FETCH_ASSOC);
 
         //images
         $query = "SELECT * FROM tbl_images WHERE propertyId=$pid";

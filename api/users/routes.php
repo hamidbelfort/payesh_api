@@ -100,5 +100,21 @@ if(isset($_GET['cmd'])){
         }
     }
     //endregion
+    //region get user contacts
+    else if($cmd=='userContacts'){
+        if(isset($_POST['uid'])){
+            $uid=$_POST['uid'];
+            $users->getUserContacts($uid);
+        }
+    }
+    //endregion
+    //region get contact by contactId
+    else if($cmd=='getContact'){
+        if(isset($_POST['id'])){
+            $id=$_POST['id'];
+            $users->getUserContactById($id);
+        }
+    }
+    //endregion
 
 }

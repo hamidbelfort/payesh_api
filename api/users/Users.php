@@ -137,7 +137,13 @@ class Users
             return false;
         }
     }
-
+    public function getUserContactById($id){
+        $query="SELECT * FROM tbl_contact WHERE id=$id";
+        $stmt=$this->conn->prepare($query);
+        $stmt->execute();
+        $row=$stmt->fetch(PDO::FETCH_ASSOC);
+        echo json_encode($row);
+    }
     public function addUserContact($uid,$phone,$address){
         $query="INSERT INTO tbl_contact (userId, phone, address) VALUES ($uid,'$phone','$address')";
         $stmt=$this->conn->prepare($query);
@@ -161,7 +167,7 @@ class Users
         return false;
     }
     public function getUserContacts($uid){
-        $query="SELECT * FROM tbl_contact WHERE userId=$uid";
+        $query="SELECT * FROM tbl_contact WHERE userId=$uid order by id DESC";
         $stmt=$this->conn->prepare($query);
         $stmt->execute();
         $row=$stmt->fetchAll(PDO::FETCH_ASSOC);
