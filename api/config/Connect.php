@@ -10,9 +10,10 @@ class Connect
     public function __construct()
     {
         try{
-            $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name
+            $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name.';charset=utf8'
                 , $this->db_username, $this->db_password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            //$this->conn->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES utf8");
         }
         catch (Exception $e){
             echo 'Connection Error:' . $e->getMessage();
