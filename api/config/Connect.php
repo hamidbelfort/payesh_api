@@ -4,6 +4,11 @@ class Connect
 {
     public $conn;
     private $host = "localhost";
+    /*
+      private $db_name = "behesh41_payesh";
+      private $db_username = "behesh41_payeshUser";
+      private $db_password = "Payesh@123";
+     */
     private $db_name = "payesh_db";
     private $db_username = "payesh_user";
     private $db_password = "Payesh@123";

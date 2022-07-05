@@ -37,23 +37,29 @@ if(isset($_GET['cmd'])){
     else if($cmd=='login'){
         if(isset($_POST['phone'])){
             $phone=$_POST['phone'];
+            $phoneExists=$users->isPhoneExists($phone);
+            if($phoneExists){
+                $uid=$users->getUserByPhone($phone);
 
-            $uid=$users->getUserByPhone($phone);
-            $isVerify=$users->isUserVerified($uid);
+                $isVerify=$users->isUserVerified($uid);
 
-            if($isVerify){
-                $result=$users->sendCode($phone);
-                if($result>0){
-
-                    echo json_encode(array("success"=>true,"message"=>"کد تاییدیه با موفقیت ارسال شد"));
+                if($isVerify){
+                    $result=$users->sendCode($phone);
+                    if($result>0){
+                        echo json_encode(array("success"=>true,"message"=>"کد تاییدیه با موفقیت ارسال شد"));
+                    }
+                    else{
+                        echo json_encode(array("success"=>false,"message"=>"کد تاییدیه ارسال نشد"));
+                    }
                 }
                 else{
-                    echo json_encode(array("success"=>false,"message"=>"کد تاییدیه ارسال نشد"));
+                    echo json_encode(array("success"=>false,"message"=>"حساب کاربری شما هنوز تایید نشده است"));
                 }
             }
             else{
-                echo json_encode(array("success"=>false,"message"=>"حساب کاربری شما هنوز تایید نشده است"));
+                echo json_encode(array("success"=>false,"message"=>"حسابی مرتبط با این شماره در برنامه یافت نشد"));
             }
+
         }
     }//endregion
     //region verify new user

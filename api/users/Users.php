@@ -18,9 +18,8 @@ class Users
         return $this->conn->lastInsertId();
     }
     public function isPhoneExists($phone){
-        $query = "SELECT * FROM tbl_users WHERE phoneNumber=:phoneNumber";
+        $query = "SELECT * FROM tbl_users WHERE phoneNumber='$phone'";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":phoneNumber", $this->$phone);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
@@ -61,14 +60,16 @@ class Users
         return false;
     }
     public function isUserVerified($uid){
-        $query="SELECT * FROM tbl_users WHERE id=$uid AND verified=1";
+        $query="SELECT count(*) FROM tbl_users WHERE id=$uid AND verified=1";
         $stmt=$this->conn->prepare($query);
         $stmt->execute();
-        $row=$stmt->fetch(PDO::FETCH_ASSOC);
-        if($stmt->rowCount()>0){
+        $row=$stmt->fetchColumn();
+        if($row){
             return true;
         }
-        return false;
+        else{
+            return false;
+        }
     }
     public function getUserIdByPhone($phone){
         $query="SELECT id FROM tbl_users WHERE phoneNumber='$phone'";
@@ -84,18 +85,14 @@ class Users
         $query="SELECT * FROM tbl_users WHERE phoneNumber='$phone'";
         $stmt=$this->conn->prepare($query);
         $stmt->execute();
-        $row=$stmt->fetch(PDO::FETCH_ASSOC);
-        if($row){
-            return $row;
-        }
-        return 0;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     public function sendCode($phone){
         $uid=$this->getUserIdByPhone($phone);
         $code = rand(100000, 999999);
         $msg = "کد تاییدیه شما در برنامه پایش : " . "\n" . $code;
         if ($this->isActivationExists($uid)) {
-            $this->deleteActivation();
+            $this->deleteActivation($uid);
         }
         $query = "INSERT INTO tbl_activation (userId, activation_code) VALUES (:userId, :activation_code)";
         $stmt = $this->conn->prepare($query);
