@@ -7,9 +7,10 @@ if(isset($_GET['cmd'])){
         $property->getPosts();
     }
     else if($cmd=="getPost"){
-        if (isset($_POST['pid'])){
+        if (isset($_POST['pid']) && isset($_POST['id'])){
             $pid=$_POST['pid'];
-            $property->getPostById($pid);
+            $userId=$_POST['id'];
+            $property->getPostById($pid,$userId);
         }
     }
     else if($cmd=="customPost"){
@@ -70,6 +71,19 @@ if(isset($_GET['cmd'])){
         if(isset($_POST['pid'])){
             $pid=$_POST['pid'];
             $result=$property->deleteProperty($pid);
+            if($result){
+                echo json_encode(array("success"=>true,"message"=>"درخواست با موفقیت اجرا شد"));
+            }
+            else{
+                echo json_encode(array("success"=>false,"message"=>"اجرای خطا به دلیل خطا متوقف شد"));
+            }
+        }
+    }
+    else if($cmd=="bookmark"){
+        if(isset($_POST['id']) && isset($_POST['pid'])){
+            $pid=$_POST['pid'];
+            $userId=$_POST['id'];
+            $result=$property->bookmarkProperty($userId,$pid);
             if($result){
                 echo json_encode(array("success"=>true,"message"=>"درخواست با موفقیت اجرا شد"));
             }

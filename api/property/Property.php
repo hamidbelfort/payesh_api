@@ -119,7 +119,7 @@ class Property
         echo json_encode($row);
     }
 
-    public function getPostById($pid)
+    public function getPostById($pid,$userId)
     {
         $query = "SELECT * FROM tbl_property WHERE id=$pid ORDER BY id DESC";
         $stmt = $this->conn->prepare($query);
@@ -178,9 +178,12 @@ class Property
         $stmt->execute();
         $row['similar'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        //isBookmarked
+        $bookmarked=$this->isBookmarkExists($userId,$pid);
+        $row['bookmarked']=$bookmarked;
+
         echo json_encode($row);
     }
-
     public function uploadImage($img)
     {
         $db = new Connect();
@@ -198,5 +201,32 @@ class Property
         $query = "INSERT INTO tbl_images (propertyId, img) VALUES ($pid,'$imagePath')";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
+    }
+    public function bookmarkProperty($userId, $pid){
+        if($this->isBookmarkExists($userId,$pid)){
+            $query = "INSERT INTO tbl_bookmark (userId, propertyId) VALUES ($userId,$pid)";
+        }
+        else{
+            $query = "DELETE FROM tbl_bookmark WHERE userId=$userId AND propertyId=$pid";
+        }
+
+        $stmt = $this->conn->prepare($query);
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+
+    }
+    public function isBookmarkExists($userId,$pid){
+        $query="SELECT count(*) FROM tbl_bookmark WHERE propertyId=$pid AND userId=$userId";
+        $stmt=$this->conn->prepare($query);
+        $stmt->execute();
+        $row=$stmt->fetchColumn();
+        if($row){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

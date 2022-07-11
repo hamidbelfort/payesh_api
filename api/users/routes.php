@@ -29,8 +29,14 @@ if(isset($_GET['cmd'])){
             $phone=$_POST['phone'];
             $code=$_POST['code'];
             $result=$users->confirmCode($phone,$code);
-            $loggedUser=$users->getUserByPhone($phone);
-            echo json_encode($loggedUser);
+            if($result){
+                $loggedUser=$users->getUserByPhone($phone);
+                echo json_encode($loggedUser);
+            }
+            else{
+                echo json_encode(array("success"=>false,"message"=>"کد وارد شده صحیح نمیباشد"));
+            }
+
         }
     }//endregion
     //region login and send activation code
@@ -39,7 +45,7 @@ if(isset($_GET['cmd'])){
             $phone=$_POST['phone'];
             $phoneExists=$users->isPhoneExists($phone);
             if($phoneExists){
-                $uid=$users->getUserByPhone($phone);
+                $uid=$users->getUserIdByPhone($phone);
 
                 $isVerify=$users->isUserVerified($uid);
 
