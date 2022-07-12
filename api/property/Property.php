@@ -14,14 +14,14 @@ class Property
     public function insertProperty($imgArr, $thumb, $title, $description, $address,
                                    $price, $minPrice, $maxPrice, $propTypeId, $dealTypeId,
                                    $hasElevator, $hasParking, $hasWareHouse, $hasBalcony,
-                                   $bedsNo, $toiletsNo, $cityId, $regionId, $userId)
+                                   $bedsNo, $toiletsNo,$year,$area, $cityId, $regionId, $userId)
     {
         try {
 
             $imageName = $thumb != "" ? $this->uploadImage($thumb) : "";
 
-            $query = "INSERT INTO tbl_property (image, title, description, price, minPrice, maxPrice, propertyTypeId, dealTypeId, hasElevator, hasParking, hasWarehouse, hasBalcony, bedsNo, toiletsNo, cityId, regionId, address, userId) 
-                VALUES ($imageName,$title,$description,$price,$minPrice,$maxPrice,$propTypeId,$dealTypeId,$hasElevator,$hasParking,$hasWareHouse,$hasBalcony,$bedsNo,$toiletsNo,$cityId,$regionId,$address,$userId)";
+            $query = "INSERT INTO tbl_property (image, title, description, price, minPrice, maxPrice, propertyTypeId, dealTypeId, hasElevator, hasParking, hasWarehouse, hasBalcony, bedsNo, toiletsNo,year,area, cityId, regionId, address, userId) 
+                VALUES ($imageName,$title,$description,$price,$minPrice,$maxPrice,$propTypeId,$dealTypeId,$hasElevator,$hasParking,$hasWareHouse,$hasBalcony,$bedsNo,$toiletsNo,$year,$area,$cityId,$regionId,$address,$userId)";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             $pid = $this->conn->lastInsertId();
@@ -182,6 +182,17 @@ class Property
         $bookmarked=$this->isBookmarkExists($userId,$pid);
         $row['bookmarked']=$bookmarked;
 
+        //property note
+        $query = "SELECT id,propertyId,userId,noteText FROM tbl_notes WHERE propertyId=$pid AND userId=$userId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        if($stmt->rowCount()>0){
+            $row['note'] = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        else{
+            $row['note']=null;
+        }
+
         echo json_encode($row);
     }
     public function uploadImage($img)
@@ -202,6 +213,9 @@ class Property
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
     }
+    public function getPropertyNote($pid){
+
+    }
     public function bookmarkProperty($userId, $pid){
         if($this->isBookmarkExists($userId,$pid)){
             $query = "INSERT INTO tbl_bookmark (userId, propertyId) VALUES ($userId,$pid)";
@@ -216,6 +230,39 @@ class Property
         }
         return false;
 
+    }
+    public function noteOnProperty($userId, $pid,$noteText){
+        if(isset($noteText)){
+            if($this->isNoteExists($userId,$pid)){
+                $query = "INSERT INTO tbl_notes (userId, propertyId,noteText) VALUES ($userId,$pid,'$noteText')";
+            }
+            else{
+                $query = "UPDATE tbl_notes SET noteText='$noteText' WHERE userId=$userId AND propertyId=$pid";
+            }
+        }
+        else{
+            $query="DELETE FROM tbl_notes WHERE userId=$userId AND propertyId=$pid";
+        }
+
+
+        $stmt = $this->conn->prepare($query);
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+
+    }
+    public function isNoteExists($userId,$pid){
+        $query="SELECT count(*) FROM tbl_notes WHERE propertyId=$pid AND userId=$userId";
+        $stmt=$this->conn->prepare($query);
+        $stmt->execute();
+        $row=$stmt->fetchColumn();
+        if($row){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     public function isBookmarkExists($userId,$pid){
         $query="SELECT count(*) FROM tbl_bookmark WHERE propertyId=$pid AND userId=$userId";

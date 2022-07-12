@@ -3,9 +3,12 @@ include "Property.php";
 $property=new Property();
 if(isset($_GET['cmd'])){
     $cmd=$_GET['cmd'];
+    //region get all posts
     if($cmd=="getAll"){
         $property->getPosts();
     }
+    //endregion
+    //region get Single Post
     else if($cmd=="getPost"){
         if (isset($_POST['pid']) && isset($_POST['id'])){
             $pid=$_POST['pid'];
@@ -13,11 +16,15 @@ if(isset($_GET['cmd'])){
             $property->getPostById($pid,$userId);
         }
     }
+    //endregion
+    //region get custom posts by propertyType or deal type id
     else if($cmd=="customPost"){
         $propTypeId=isset($_POST['propTypeId'])?$_POST['propTypeId']:0;
         $dealTypeId=isset($_POST['dealTypeId'])?$_POST['dealTypeId']:0;
         $property->getCustomPost($propTypeId,$dealTypeId);
     }
+    //endregion
+    //region insert new property
     else if($cmd=="newProperty"){
         if(isset($_POST['title']) && isset($_POST['userId'])
             && isset($_POST['propTypeId']) && isset($_POST['dealTypeId'])){
@@ -37,6 +44,8 @@ if(isset($_GET['cmd'])){
             $hasBalcony=isset($_POST['hasBalcony'])?$_POST['hasBalcony']:0;
             $bedsNo=isset($_POST['bedsNo'])?$_POST['bedsNo']:0;
             $toiletNo=isset($_POST['toiletNo'])?$_POST['toiletNo']:0;
+            $year=isset($_POST['year'])?$_POST['year']:0;
+            $area=isset($_POST['area'])?$_POST['area']:0;
             $cityId=$_POST['cityId'];
             $regionId=$_POST['regionId'];
             $address=isset($_POST['address'])?$_POST['address']:"";
@@ -44,7 +53,7 @@ if(isset($_GET['cmd'])){
 
             $result=$property->insertProperty($imageArr,$image,$title,$des,$address,
                 $price,$minPrice,$maxPrice,$propTypeId,$dealTypeId,
-                $hasElevator,$hasParking,$hasWarehouse,$hasBalcony,$bedsNo,$toiletNo,
+                $hasElevator,$hasParking,$hasWarehouse,$hasBalcony,$bedsNo,$toiletNo,$year,$area,
             $cityId,$regionId,$userId);
             if($result){
                 echo json_encode(array("success"=>true,"message"=>"اطلاعات ملک با موفقیت ثبت شد"));
@@ -54,6 +63,8 @@ if(isset($_GET['cmd'])){
             }
         }
     }
+    //endregion
+    //region confirm new Property
     else if($cmd=='confirmProperty'){
         if(isset($_POST['pid']) && isset($_POST['confirm'])){
             $pid=$_POST['pid'];
@@ -67,6 +78,8 @@ if(isset($_GET['cmd'])){
             }
         }
     }
+    //endregion
+    //region delete a post
     else if($cmd=='delete'){
         if(isset($_POST['pid'])){
             $pid=$_POST['pid'];
@@ -79,6 +92,8 @@ if(isset($_GET['cmd'])){
             }
         }
     }
+    //endregion
+    //region add property to bookmark
     else if($cmd=="bookmark"){
         if(isset($_POST['id']) && isset($_POST['pid'])){
             $pid=$_POST['pid'];
@@ -92,4 +107,22 @@ if(isset($_GET['cmd'])){
             }
         }
     }
+    //endregion
+    //region add note on property
+    else if($cmd=="note"){
+        if(isset($_POST['id']) && isset($_POST['pid']) && isset($_POST['note'])){
+            $pid=$_POST['pid'];
+            $userId=$_POST['id'];
+            $note=$_POST['note'];
+            $result=$property->noteOnProperty($userId,$pid,$note);
+            if($result){
+                echo json_encode(array("success"=>true,"message"=>"درخواست با موفقیت اجرا شد"));
+            }
+            else{
+                echo json_encode(array("success"=>false,"message"=>"اجرای خطا به دلیل خطا متوقف شد"));
+            }
+        }
+    }
+    //endregion
+
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2022 at 06:56 PM
+-- Generation Time: Jul 12, 2022 at 04:51 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -155,6 +155,27 @@ INSERT INTO `tbl_images` (`id`, `propertyId`, `img`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_notes`
+--
+
+CREATE TABLE `tbl_notes` (
+  `id` int(11) NOT NULL,
+  `propertyId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `noteText` text COLLATE utf8_persian_ci NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_persian_ci;
+
+--
+-- Dumping data for table `tbl_notes`
+--
+
+INSERT INTO `tbl_notes` (`id`, `propertyId`, `userId`, `noteText`, `createdAt`) VALUES
+(1, 1, 1001, 'این یک یادداشت نمونه است', '2022-07-12 14:34:13');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_property`
 --
 
@@ -191,8 +212,8 @@ CREATE TABLE `tbl_property` (
 --
 
 INSERT INTO `tbl_property` (`id`, `image`, `title`, `description`, `year`, `area`, `price`, `minPrice`, `maxPrice`, `propertyTypeId`, `dealTypeId`, `hasElevator`, `hasParking`, `hasWarehouse`, `hasBalcony`, `bedsNo`, `toiletsNo`, `cityId`, `regionId`, `address`, `contactId`, `userId`, `views`, `isConfirmed`, `createdAt`) VALUES
-(1, 'https://s101.divarcdn.com/static/pictures/1655131284/gYnukXwv.jpg', 'منزل مبله', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 1400, 0, 300000, 0, 0, 5, 0, 0, 1, 0, 0, 2, 1, 1, 1, '0', 1, 1000, 4, 1, '2022-06-13 19:21:24'),
-(2, 'https://s101.divarcdn.com/static/pictures/1655131309/QYb7QO3N.jpg', 'منزل مبله ویلایی', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 1395, 0, 300000, 0, 0, 5, 6, 0, 1, 1, 0, 2, 1, 1, 1, 'شیراز ', 1, 1000, 13, 1, '2022-06-13 19:25:55');
+(1, 'https://beheshtinahal.com/payesh/api/images/property1.jpg', 'منزل مبله', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 1400, 0, 300000, 0, 0, 5, 1, 0, 1, 0, 0, 2, 1, 1, 1, '0', 1, 1000, 14, 1, '2022-06-13 19:21:24'),
+(2, 'https://beheshtinahal.com/payesh/api/images/property2.jpg', 'منزل مبله ویلایی', 'منزل مبله ویلایی دربست مستقل\r\nباتمام وسایل وامکانات لوکس شیک وتمیز وضدعفونی شده\r\nدرشمال شهر\r\nبرای مهمانان عزیز وغیر.....', 1395, 0, 300000, 0, 0, 5, 6, 0, 1, 1, 0, 2, 1, 1, 1, 'شیراز ', 1, 1000, 13, 1, '2022-06-13 19:25:55');
 
 -- --------------------------------------------------------
 
@@ -283,7 +304,7 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `firstName`, `lastName`, `nationalId`, `birthDate`, `fatherName`, `phoneNumber`, `address`, `roleId`, `verified`, `enabled`, `createdAt`) VALUES
-(1000, 'حمید', 'سرخ رو', '2560123123', '2022-04-12', 'تقی', '0936936111', 'فسا', 0, 1, 1, '2022-04-12 18:34:34'),
+(1000, 'حمید', 'سرخ رو', '2560123123', '2022-04-12', 'تقی', '09366110309', 'فسا', 0, 1, 1, '2022-04-12 18:34:34'),
 (1002, 'Hamid', 'Sorkhroo', '255255000', '1991-05-02', 'Taqi', '0936936000', 'fasa', 2, 0, 1, '2022-04-13 15:58:38');
 
 -- --------------------------------------------------------
@@ -343,6 +364,12 @@ ALTER TABLE `tbl_dealtype`
 -- Indexes for table `tbl_images`
 --
 ALTER TABLE `tbl_images`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_notes`
+--
+ALTER TABLE `tbl_notes`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -427,6 +454,12 @@ ALTER TABLE `tbl_dealtype`
 --
 ALTER TABLE `tbl_images`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tbl_notes`
+--
+ALTER TABLE `tbl_notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_property`
