@@ -62,6 +62,9 @@ if(isset($_GET['cmd'])){
                 echo json_encode(array("success"=>false,"message"=>"ثبت اطلاعات ملک به دلیل خطا متوقف شد"));
             }
         }
+        else{
+            echo json_encode(array("success"=>false,"message"=>"درخواست ناقص است"));
+        }
     }
     //endregion
     //region confirm new Property
@@ -77,6 +80,9 @@ if(isset($_GET['cmd'])){
                 echo json_encode(array("success"=>false,"message"=>"اجرای خطا به دلیل خطا متوقف شد"));
             }
         }
+        else{
+            echo json_encode(array("success"=>false,"message"=>"درخواست ناقص است"));
+        }
     }
     //endregion
     //region delete a post
@@ -90,6 +96,9 @@ if(isset($_GET['cmd'])){
             else{
                 echo json_encode(array("success"=>false,"message"=>"اجرای خطا به دلیل خطا متوقف شد"));
             }
+        }
+        else{
+            echo json_encode(array("success"=>false,"message"=>"درخواست ناقص است"));
         }
     }
     //endregion
@@ -106,14 +115,18 @@ if(isset($_GET['cmd'])){
                 echo json_encode(array("success"=>false,"message"=>"اجرای خطا به دلیل خطا متوقف شد"));
             }
         }
+        else{
+            echo json_encode(array("success"=>false,"message"=>"درخواست ناقص است"));
+        }
     }
     //endregion
     //region add note on property
     else if($cmd=="note"){
-        if(isset($_POST['id']) && isset($_POST['pid']) && isset($_POST['note'])){
+        if(isset($_POST['id']) && isset($_POST['pid']) && isset($_POST['noteText'])){
             $pid=$_POST['pid'];
             $userId=$_POST['id'];
-            $note=$_POST['note'];
+            $note=$_POST['noteText'];
+
             $result=$property->noteOnProperty($userId,$pid,$note);
             if($result){
                 echo json_encode(array("success"=>true,"message"=>"درخواست با موفقیت اجرا شد"));
@@ -121,6 +134,9 @@ if(isset($_GET['cmd'])){
             else{
                 echo json_encode(array("success"=>false,"message"=>"اجرای خطا به دلیل خطا متوقف شد"));
             }
+        }
+        else{
+            echo json_encode(array("success"=>false,"message"=>"درخواست ناقص است"));
         }
     }
     //endregion

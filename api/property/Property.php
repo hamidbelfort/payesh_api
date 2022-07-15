@@ -217,7 +217,8 @@ class Property
 
     }
     public function bookmarkProperty($userId, $pid){
-        if($this->isBookmarkExists($userId,$pid)){
+        $bookmarkExists=$this->isBookmarkExists($userId,$pid);
+        if(!$bookmarkExists){
             $query = "INSERT INTO tbl_bookmark (userId, propertyId) VALUES ($userId,$pid)";
         }
         else{
@@ -232,8 +233,9 @@ class Property
 
     }
     public function noteOnProperty($userId, $pid,$noteText){
-        if(isset($noteText)){
-            if($this->isNoteExists($userId,$pid)){
+        if(!$noteText==""){
+            $noteExists=$this->isNoteExists($userId,$pid);
+            if(!$noteExists){
                 $query = "INSERT INTO tbl_notes (userId, propertyId,noteText) VALUES ($userId,$pid,'$noteText')";
             }
             else{
@@ -257,7 +259,7 @@ class Property
         $stmt=$this->conn->prepare($query);
         $stmt->execute();
         $row=$stmt->fetchColumn();
-        if($row){
+        if($row>0){
             return true;
         }
         else{
@@ -269,7 +271,7 @@ class Property
         $stmt=$this->conn->prepare($query);
         $stmt->execute();
         $row=$stmt->fetchColumn();
-        if($row){
+        if($row>0){
             return true;
         }
         else{
