@@ -140,5 +140,15 @@ if(isset($_GET['cmd'])){
         }
     }
     //endregion
+    //region add note on property
+    else if($cmd=="getBookmarks"){
+        if(isset($_POST['id'])){
+            $userId=$_POST['id'];
+            $property->getBookmarkedProperties($userId);
+        }
+    }
+    //endregion
+    //region add note on property
+    //endregion
 
 }

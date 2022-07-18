@@ -49,7 +49,9 @@ class Property
     {
         $query = "DELETE FROM tbl_property WHERE id=$pid";
         $stmt = $this->conn->prepare($query);
-        if ($stmt->execute()) {
+        $query2 = "DELETE FROM tbl_bookmark WHERE propertyId=$pid";
+        $stmt2 = $this->conn->prepare($query2);
+        if ($stmt->execute() && $stmt2->execute()) {
             return true;
         }
         return false;
@@ -213,9 +215,6 @@ class Property
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
     }
-    public function getPropertyNote($pid){
-
-    }
     public function bookmarkProperty($userId, $pid){
         $bookmarkExists=$this->isBookmarkExists($userId,$pid);
         if(!$bookmarkExists){
@@ -277,5 +276,12 @@ class Property
         else{
             return false;
         }
+    }
+    public function getBookmarkedProperties($userId){
+        $query="SELECT tbl_property.* FROM tbl_property INNER JOIN tbl_bookmark on tbl_property.id = tbl_bookmark.propertyId WHERE tbl_property.isConfirmed AND tbl_bookmark.userId=$userId";
+        $stmt=$this->conn->prepare($query);
+        $stmt->execute();
+        $row=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($row);
     }
 }
