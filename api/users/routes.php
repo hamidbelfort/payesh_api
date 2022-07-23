@@ -114,8 +114,8 @@ if(isset($_GET['cmd'])){
     //endregion
     //region get user contacts
     else if($cmd=='userContacts'){
-        if(isset($_POST['uid'])){
-            $uid=$_POST['uid'];
+        if(isset($_POST['id'])){
+            $uid=$_POST['id'];
             $users->getUserContacts($uid);
         }
     }
