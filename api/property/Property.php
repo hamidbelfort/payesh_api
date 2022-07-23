@@ -163,6 +163,13 @@ class Property
 
         //contact
 
+        $query = "SELECT id,concat(firstName,' ',lastName) AS fullname,nationalId FROM tbl_users WHERE id=$userId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row['userInfo'] = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        //contact
+
         $query = "SELECT * FROM tbl_contact WHERE id=$contactId[0]";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
